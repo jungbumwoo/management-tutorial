@@ -1,0 +1,7 @@
+{
+  "name": "giftship",
+  "version": "1.0.0",
+  "description": "GiftShip",
+  "main": "index.js",
+  "license": "MIT"
+}
