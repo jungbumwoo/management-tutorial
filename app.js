@@ -1,4 +1,4 @@
-const express = require('express');
+import express from "express";
 
 const app = express();
 
@@ -9,5 +9,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(PORT, ()=> {
-    console.log(`App is listening on port ${PORT}`);
+    console.log(`listening on port localhost:${PORT}`);
 })
