@@ -1,24 +1,17 @@
 import React from 'react';
 
-
 class App extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      title: null
-    }
+      username: null
+    } 
   }
 
   componentDidMount() {
-    fetch('http://localhost:5000/')
-      .then(res => {
-        console.log(res)
-        res.json()
-      })
-      .then(data => {
-        console.log(data);
-        this.setState({title: data.title})
-      });
+    fetch('/')
+      .then(res=>res.json())
+      .then(data=>this.setState({username:data.username}));
   }
 
   render() {
@@ -26,7 +19,7 @@ class App extends React.Component{
       <div className="App">
         <header className="App-header">
           <div>
-            {this.state.title? <h1>{this.state.title}</h1>:<h1>loading...</h1>}
+            {this.state.username ? <h1>Hi. ${this.state.username}</h1> : <h1>loading...</h1>}
           </div>
         </header>
       </div>
