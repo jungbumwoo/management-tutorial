@@ -24,11 +24,16 @@ const connection = mysql.createConnection({
 connection.connect();
 
 
-app.use('/', (req, res) => {
-    res.send({username: "sibal."})
+app.get('/api', (req, res) => {
+    res.send({username: "sibal."});
+});
+
+app.use('/api/group', (req, res) => {
+    res.send({username: "group sibal."});
 })
-/*
-app.use('/', (req, res) => {
+
+
+app.use('/api/users', (req, res) => {
     connection.query(
         "SELECT * FROM CUSTOMER",
         (err, rows, fields) => {
@@ -37,7 +42,7 @@ app.use('/', (req, res) => {
         }
     )
 })
-*/
+
 app.listen(port, ()=> {
     console.log(`✅ Listening on Port at http://localhost:${port}`);
 }); 
