@@ -29,7 +29,7 @@ app.get('/api', (req, res) => {
 });
 
 app.use('/api/group', (req, res) => {
-    res.send({username: "group sibal."});
+    res.send({username: "group sibal."})
 })
 
 
@@ -37,7 +37,6 @@ app.use('/api/users', (req, res) => {
     connection.query(
         "SELECT * FROM CUSTOMER",
         (err, rows, fields) => {
-            console.log(rows);
             res.send({rows});
         }
     )
