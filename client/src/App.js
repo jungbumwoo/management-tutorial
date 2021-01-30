@@ -2,6 +2,7 @@ import React from 'react';
 
 import Customer from "./components/Customer";
 import CustomerAdd from "./components/CustomerAdd";
+import CustomerAdd2 from "./components/CustomerAdd2";
 
 import Table from "@material-ui/core/Table";
 import TableHead from "@material-ui/core/TableHead";

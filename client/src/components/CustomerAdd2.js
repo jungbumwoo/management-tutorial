@@ -1,18 +1,16 @@
 import React from "react";
 import { post } from "axios";
 
-class CustomerAdd extends React.Component {
-    constructor(props){
+class CustomerAdd2 extends React.Component {
+    constructor(props) {
         super(props);
         this.state = {
             file: null,
-            image: '',
+            fileName: '',
             username: '',
-            birthday: '',
             gender: '',
-            email: '',
-            fileName: ''
-        }       
+            email: ''
+        }
     }
 
     handleFormSubmit = (e) => {
@@ -21,52 +19,35 @@ class CustomerAdd extends React.Component {
             .then((response) => {
                 console.log(response.data);
             })
-        this.setState({
-            file: null,
-            username: '',
-            birthday: '',
-            gender: '',
-            job: '',
-            image: '',
-            fileName: ''
-        })
-        window.location.reload();
     };
 
-    handleFileChange = (e) => {
-        this.setState({
-            file: e.target.files[0],
-            fileName: e.target.value
-        })
-    }
-
-    handleValueChange = (e) => {
+    handleOnchange = (e) => {
         let nextState = {};
         nextState[e.target.name] = e.target.value;
-        console.log(nextState);
         this.setState(nextState);
     }
 
     addCustomer = () => {
         const url = '/api/customers';
         const formData = new FormData();
-        formData.append('image', this.state.file);
+        console.log(formData);
+        formData.append('image', this.state.image);
         formData.append('username', this.state.username);
         formData.append('birthday', this.state.birthday);
         formData.append('gender', this.state.gender);
         formData.append('email', this.state.email);
+        console.log(formData);
         const config = {
             headers: {
-                'content-type': 'multipart/form-data'
+                'content-type' : 'multipart/form-data'
             }
         }
-        return post(url, formData, config);
+        return post(url, formData, config)
     }
-
 
     render(){
         return(
-            <form onSubmit={this.handleFormSubmit}>
+            <from onSubmit={this.handleFormSubmit}>
                 <h1>고객 추가</h1>
                 프로필 이미지: <input type="file" 
                                 name="file" 
@@ -75,14 +56,16 @@ class CustomerAdd extends React.Component {
                                 onChange={this.handleFileChange} /><br/>
                 이름: <input type="text" name="username" 
                             value={this.state.username} 
-                            onChange={this.handleValueChange} /><br/>
-                생년월일: <input type="text" name="birthday" value={this.state.birthday} onChange={this.handleValueChange} /><br/>
-                성별: <input type="text" name="gender" value={this.state.gender} onChange={this.handleValueChange} /><br/>
-                email: <input type="text" name="email" value={this.state.email} onChange={this.handleValueChange} /><br/>
-                <button type="submit">추가하기</button>
-            </form>
+                            onChange={this.handleOnchange} /><br/>
+                생년월일: <input type="text" name="birthday" value={this.state.birthday} onChange={this.handleOnchange} />
+                성별: <input type="text" name="gender" value={this.state.gender} onChange={this.handleOnchange} />
+                email: <input type="text" name="email" value={this.state.email} onChange={this.handleOnchange} />
+                <button type="submit">Submit</button>
+            </from>
         )
     }
+
+
 }
 
-export default CustomerAdd;
+export default CustomerAdd2;
