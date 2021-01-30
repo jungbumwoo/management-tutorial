@@ -12,6 +12,7 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import { withStyles } from "@material-ui/core/styles";
 import { Paper } from '@material-ui/core';
+import CustomerDelete from './components/CustomerDelete';
 
 const styles = theme => ({
   root: {
@@ -64,7 +65,8 @@ class App extends React.Component{
     this.timer = setInterval(this.progress, 1);
     fetch('/api/users')
       .then(res => res.json())
-      .then(data => this.setState({ userdata: data.rows }));
+      .then(data => this.setState({ userdata: data.rows }))
+      .then(clearInterval(this.timer))
   }
   
 
@@ -84,6 +86,7 @@ class App extends React.Component{
                 <TableCell>birthday</TableCell>
                 <TableCell>gender</TableCell>
                 <TableCell>email</TableCell>
+                <TableCell>Settings</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -94,7 +97,10 @@ class App extends React.Component{
               username={m.username}
               birthday={m.birthday}
               gender={m.gender}
-              email={m.email} /> )}
+              email={m.email}
+              stateRefresh={this.stateRefresh}
+              />
+              )}
             </TableBody>
           </Table>
         </Paper>

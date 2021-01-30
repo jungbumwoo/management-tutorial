@@ -42,12 +42,26 @@ app.post('/api/customers', upload.single('image'), (req, res) => {
         });
 });
 
+app.post('/api/customers/delete', (req, res) => {
+    console.log(req.body);
+    let sql = 'UPDATE CUSTOMER SET isDeleted=1 WHERE id=?';
+    let deleteId = req.body.deleteId;
+    console.log("deleteId");
+    console.log(deleteId);
+    let params = [deleteId];
+    connection.query(sql, params,
+        (err, rows, fields) => {
+            console.log("post(/api/customers/delete)")
+            console.log(rows);
+        });
+});
+
 app.get('/api', (req, res) => {
-    res.send({username: "sibal."});
+    res.send({username: "Happy."});
 });
 
 app.use('/api/group', (req, res) => {
-    res.send({username: "group sibal."})
+    res.send({username: "group HappyHappy."})
 })
 
 
