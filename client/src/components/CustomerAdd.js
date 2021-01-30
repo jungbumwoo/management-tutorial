@@ -20,6 +20,7 @@ class CustomerAdd extends React.Component {
         this.addCustomer()
             .then((response) => {
                 console.log(response.data);
+                this.props.stateRefresh();
             })
         this.setState({
             file: null,
@@ -30,7 +31,7 @@ class CustomerAdd extends React.Component {
             image: '',
             fileName: ''
         })
-        window.location.reload();
+        
     };
 
     handleFileChange = (e) => {
@@ -43,7 +44,6 @@ class CustomerAdd extends React.Component {
     handleValueChange = (e) => {
         let nextState = {};
         nextState[e.target.name] = e.target.value;
-        console.log(nextState);
         this.setState(nextState);
     }
 

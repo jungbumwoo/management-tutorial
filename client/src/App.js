@@ -4,6 +4,7 @@ import Customer from "./components/Customer";
 import CustomerAdd from "./components/CustomerAdd";
 import CustomerAdd2 from "./components/CustomerAdd2";
 
+import CircularProgress from "@material-ui/core/CircularProgress";
 import Table from "@material-ui/core/Table";
 import TableHead from "@material-ui/core/TableHead";
 import TableBody from "@material-ui/core/TableBody";
@@ -20,6 +21,9 @@ const styles = theme => ({
   },
   table: {
     minWidth: 1080
+  },
+  progress: {
+    margin: theme.spacing.unit * 2
   }
 });
 
@@ -28,12 +32,36 @@ class App extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
+      customers: '',
+      completed: 0,
       username: null,
       userdata: null,
     } 
   }
+
+  stateRefresh = () => {
+    this.setState({
+      userdata: null,
+      completed: 0
+    });
+    this.callApi()
+      .then(res=>this.setState({ userdata: res.rows}))
+      .catch(err=> console.log(err));
+  }
+
+  callApi = async () => {
+    const response = await fetch('/api/users');
+    const body = response.json();
+    return body;
+  };
+
+  progress = () => {
+    const { completed } = this.state;
+    this.setState({ completed: completed >= 100 ? 0 : completed + 40});
+  }
   
   componentDidMount() {
+    this.timer = setInterval(this.progress, 1);
     fetch('/api/users')
       .then(res => res.json())
       .then(data => this.setState({ userdata: data.rows }));
@@ -59,7 +87,7 @@ class App extends React.Component{
               </TableRow>
             </TableHead>
             <TableBody>
-              {userdata.map((m) => <Customer 
+              { userdata.map((m) => <Customer 
               key={m.id}
               id={m.id}
               image={m.image}
@@ -70,15 +98,19 @@ class App extends React.Component{
             </TableBody>
           </Table>
         </Paper>
-        <CustomerAdd />
+        <CustomerAdd stateRefresh={this.stateRefresh} />
       </div>
       )
     } else {
       return (
-        <h1>Loading...</h1>
+        <TableRow>
+          <TableCell colSpan="6" align="center">
+            <CircularProgress className={classes.progress} variant="indeterminate" value={this.state.completed} />
+          </TableCell>
+        </TableRow>
       )
     }
   }
 }
 
-export default withStyles(styles)(App);
+export default withStyles(styles)(App); 
