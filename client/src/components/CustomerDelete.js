@@ -3,30 +3,17 @@ import { post } from "axios";
 
 class CustomerDelete extends React.Component {
     
-    deleteCustomer = () => {
-        console.log(this.props.id);
-        const url = '/api/customers/delete';
-        let data  = {};
-        data["deleteId"] = this.props.id;
-        const config = {
-            headers: {
-                'content-type': 'Application/json'
-            }
-        }
-        return post(url, data, config);
-    }
-
-    deleteButton = () => {
-        this.deleteCustomer()
-            .then((response) => {
-                console.log(response);
-                this.props.stateRefresh();
-            })
+    deleteCustomer = (id) => {
+        const url = '/api/customers/delete/' + id;
+        fetch(url, {
+            method: 'DELETE'
+        });
+        this.props.deleteRefresh();
     }
 
     render() {
         return(
-            <button onClick={()=> this.deleteButton()}>Delete</button>
+            <button onClick={(e)=> {this.deleteCustomer(this.props.id)}}>Delete</button>
         )
     }
 };
