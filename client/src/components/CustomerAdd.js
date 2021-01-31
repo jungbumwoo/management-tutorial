@@ -64,7 +64,8 @@ class CustomerAdd extends React.Component {
             gender: '',
             job: '',
             image: '',
-            fileName: ''
+            fileName: '',
+            open: false
         })
         
     };
@@ -108,22 +109,35 @@ class CustomerAdd extends React.Component {
                 </Button>
                 <Dialog open={this.state.open} onClose={this.handleClose}>
                     <DialogTitle>Add Customer</DialogTitle>
+                    <DialogContent>
+                        <input className={classes.hidden} accept="image/*" id="raised-button-file" type="file" 
+                                    file={this.state.file} 
+                                    value={this.state.fileName} 
+                                    onChange={this.handleFileChange} /><br/>
+                        <label htmlFor="raised-button-file">
+                            <Button variant="contained" color="primary" component="span" name="file">
+                                {this.state.fileName === "" ? "프로필 이미지 선택" : this.state.fileName}
+                            </Button>
+                        </label>
+                        <br />
+                        <TextField label="name" type="text" name="username" 
+                                value={this.state.username} 
+                                onChange={this.handleValueChange} /><br/>
+                        <TextField label="birthday" type="text" name="birthday" value={this.state.birthday} onChange={this.handleValueChange} /><br/>
+                        <TextField label="gender" type="text" name="gender" value={this.state.gender} onChange={this.handleValueChange} /><br/>
+                        <TextField label="email" type="text" name="email" value={this.state.email} onChange={this.handleValueChange} /><br/>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button variant="contained" color="primary" onClick={this.handleFormSubmit}>Add</Button>
+                        <Button variant="outlined" color="primary" onClick={this.handleClose}>Cancel</Button>
+                    </DialogActions>
                 </Dialog>
             </div>
             /**
             <form onSubmit={this.handleFormSubmit}>
                 <h1>고객 추가</h1>
-                프로필 이미지: <input type="file" 
-                                name="file" 
-                                file={this.state.file} 
-                                value={this.state.fileName} 
-                                onChange={this.handleFileChange} /><br/>
-                이름: <input type="text" name="username" 
-                            value={this.state.username} 
-                            onChange={this.handleValueChange} /><br/>
-                생년월일: <input type="text" name="birthday" value={this.state.birthday} onChange={this.handleValueChange} /><br/>
-                성별: <input type="text" name="gender" value={this.state.gender} onChange={this.handleValueChange} /><br/>
-                email: <input type="text" name="email" value={this.state.email} onChange={this.handleValueChange} /><br/>
+                
+                
                 <button type="submit">추가하기</button>
             </form>
              */
@@ -131,4 +145,4 @@ class CustomerAdd extends React.Component {
     }
 }
 
-export default CustomerAdd;
+export default withStyles(styles)(CustomerAdd);
