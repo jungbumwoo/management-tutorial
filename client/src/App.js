@@ -103,13 +103,15 @@ class App extends React.Component{
       completed: 0,
       username: null,
       userdata: null,
+      searchKeyword: ''
     } 
   }
 
   stateRefresh = () => {
     this.setState({
       userdata: null,
-      completed: 0
+      completed: 0,
+      searchKeyword: ''
     });
     this.callApi()
       .then(res=>this.setState({ userdata: res.rows}))
@@ -134,9 +136,30 @@ class App extends React.Component{
       .then(data => this.setState({ userdata: data.rows }))
       .then(clearInterval(this.timer))
   }
+
+  handleValueChange= (e) => {
+    let nextState = {};
+    nextState[e.target.name] = e.target.value;
+    this.setState(nextState)
+  }
   
 
   render() {
+    const filteredComponents = (data) => {
+      data = data.filter((c) => {
+        return c.username.indexOf(this.state.searchKeyword) > -1;
+      });
+      return data.map((m) => {
+        return <Customer key={m.id}
+        id={m.id}
+        image={m.image}
+        username={m.username}
+        birthday={m.birthday}
+        gender={m.gender}
+        email={m.email}
+        stateRefresh={this.stateRefresh} />
+      });
+    }
     let { userdata } = this.state;
     const { classes } = this.props;
     const cellList = ["Id", "Image", "UserName", "Birth", "Gender", "Email", "Settings"]
@@ -166,6 +189,9 @@ class App extends React.Component{
                   root: classes.inputRoot,
                   input: classes.inputInput,
                 }}
+                name="searchKeyword"
+                value={this.state.searchKeyword}
+                onChange={this.handleValueChange}
                 inputProps={{ 'aria-label': 'search' }}
               />
             </div>
@@ -184,17 +210,7 @@ class App extends React.Component{
               </TableRow>
             </TableHead>
             <TableBody>
-              { userdata.map((m) => <Customer 
-              key={m.id}
-              id={m.id}
-              image={m.image}
-              username={m.username}
-              birthday={m.birthday}
-              gender={m.gender}
-              email={m.email}
-              stateRefresh={this.stateRefresh}
-              />
-              )}
+              { filteredComponents(this.state.userdata) }
             </TableBody>
           </Table>
         </Paper>
