@@ -1,5 +1,18 @@
 import React from "react";
 import { post } from "axios";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import { withStyles } from "@material-ui/core/styles";
+
+const styles = theme => ({
+    hidden: {
+        display: 'none'
+    }
+})
 
 class CustomerAdd extends React.Component {
     constructor(props){
@@ -11,8 +24,30 @@ class CustomerAdd extends React.Component {
             birthday: '',
             gender: '',
             email: '',
-            fileName: ''
+            fileName: '',
+            open: false
         }       
+    }
+
+    handleClickOpen() {
+        console.log("handleClickOpen")
+        this.setState({
+            open: true
+        });
+    }
+
+    handleClose = () => {
+        console.log("handleClose");
+        this.setState({
+            file: null,
+            username: '',
+            birthday: '',
+            gender: '',
+            job: '',
+            image: '',
+            fileName: '',
+            open: false
+        })
     }
 
     handleFormSubmit = (e) => {
@@ -65,7 +100,17 @@ class CustomerAdd extends React.Component {
 
 
     render(){
+        const { classes } = this.props;
         return(
+            <div>
+                <Button variant="contained" color="primary" onClick={()=>this.handleClickOpen()}>
+                    AddCustomer
+                </Button>
+                <Dialog open={this.state.open} onClose={this.handleClose}>
+                    <DialogTitle>Add Customer</DialogTitle>
+                </Dialog>
+            </div>
+            /**
             <form onSubmit={this.handleFormSubmit}>
                 <h1>고객 추가</h1>
                 프로필 이미지: <input type="file" 
@@ -81,6 +126,7 @@ class CustomerAdd extends React.Component {
                 email: <input type="text" name="email" value={this.state.email} onChange={this.handleValueChange} /><br/>
                 <button type="submit">추가하기</button>
             </form>
+             */
         )
     }
 }
