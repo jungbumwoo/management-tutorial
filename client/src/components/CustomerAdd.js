@@ -105,7 +105,7 @@ class CustomerAdd extends React.Component {
         return(
             <div>
                 <Button variant="contained" color="primary" onClick={()=>this.handleClickOpen()}>
-                    AddCustomer
+                    Add_Customer
                 </Button>
                 <Dialog open={this.state.open} onClose={this.handleClose}>
                     <DialogTitle>Add Customer</DialogTitle>
